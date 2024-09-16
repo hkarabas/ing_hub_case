@@ -69,15 +69,18 @@ VALUES('META',1000,1000,'TRY');
 INSERT INTO asset(asset_name,size,usable_size,currency)
 VALUES('MICROSOFT',1000,1000,'TRY');
 
-INSERT INTO customer_amount(customer_id,iban,amount)
-VALUES(1,'TRY3213234324355667',1000000);
-
-INSERT INTO customer_amount(customer_id,iban,amount)
-VALUES(2,'TRY445445445444667',1000000);
 
 INSERT INTO user_table (email,full_name,user_type,password,default_currency,iban,created_at)
 VALUES('hkarabas@gmail.com','hasan karabaş','CUSTOMER','12345','TRY','TRY445445445444667',CURRENT_TIMESTAMP);
 
 INSERT INTO user_table (email,full_name,user_type,password,default_currency,iban,created_at)
 VALUES('admin@gmail.com','admin','ADMIN','12345','TRY','TRY3213234324355667',CURRENT_TIMESTAMP);
+
+
+INSERT INTO customer_amount(customer_id,iban,amount)
+VALUES(1,'TRY445445445444667',1000000);
+
+INSERT INTO customer_amount(customer_id,iban,amount)
+VALUES(2,'TRY3213234324355667',1000000);
+
 

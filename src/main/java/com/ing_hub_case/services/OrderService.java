@@ -12,6 +12,7 @@ import com.ing_hub_case.exception.AssetUsableSizeException;
 import com.ing_hub_case.exception.CustomerBalanceException;
 import com.ing_hub_case.exception.NoSuchOrderExistsException;
 import com.ing_hub_case.exception.UserUnAuthorizedException;
+import com.ing_hub_case.feignclients.CustomerBalanceClient;
 import com.ing_hub_case.models.OrderDto;
 import com.ing_hub_case.repositories.AssetRepository;
 import com.ing_hub_case.repositories.OrderRepository;
@@ -35,13 +36,15 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final AssetRepository assetRepository;
     private final OrderTradeRepository orderTradeRepository;
+    private final CustomerBalanceClient customerBalanceClient;
+    private final  JwtService jwtService;
 
-
-    public OrderService(OrderRepository orderRepository, AssetRepository assetRepository, OrderTradeRepository orderTradeRepository) {
+    public OrderService(OrderRepository orderRepository, AssetRepository assetRepository, OrderTradeRepository orderTradeRepository, CustomerBalanceClient customerBalanceClient, JwtService jwtService) {
         this.orderRepository = orderRepository;
         this.assetRepository = assetRepository;
         this.orderTradeRepository = orderTradeRepository;
-
+        this.customerBalanceClient = customerBalanceClient;
+        this.jwtService = jwtService;
     }
     @Transactional
     public OrderDto createOrder(OrderDto orderDto) {
@@ -194,12 +197,12 @@ public class OrderService {
     }
 
     private boolean withDrawMoney(String iban,Double price) {
-        //should be call CustomerAmountController end-api with feign client
-        return true;
+        String token  = "Bearer "+jwtService.generateToken(getUser());
+        return customerBalanceClient.postWithDraw(iban,price,token);
     }
     private boolean depositMoney(String iban,Double price) {
-        //should be call CustomerAmountController end-api with feign client
-        return true;
+        String token  = "Bearer "+jwtService.generateToken(getUser());
+        return customerBalanceClient.postDeposit(iban,price,token);
     }
 
     private Optional<Asset>  assetControl(Integer assetId) {

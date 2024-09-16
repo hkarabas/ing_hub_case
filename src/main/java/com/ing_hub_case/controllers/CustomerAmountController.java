@@ -25,7 +25,7 @@ public class CustomerAmountController {
     }
     @PostMapping("/deposit")
     public ResponseEntity<Boolean> depositDraw(@RequestParam String iban,@RequestParam Double price) {
-        return new ResponseEntity<Boolean>(customerAmountService.withDrawMoney(iban,price), HttpStatus.ACCEPTED);
+        return new ResponseEntity<Boolean>(customerAmountService.depositMoney(iban,price), HttpStatus.ACCEPTED);
     }
 
 }

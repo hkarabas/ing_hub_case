@@ -22,6 +22,13 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
     }
 
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public @ResponseBody ErrorResponse handleException(IllegalArgumentException ex) {
+        return new ErrorResponse(HttpStatus.FORBIDDEN.value(), ex.getMessage());
+    }
+
+
     @ExceptionHandler(value = AssetUsableSizeException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public @ResponseBody ErrorResponse handleException(AssetUsableSizeException ex) {

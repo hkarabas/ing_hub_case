@@ -64,6 +64,9 @@ class AuthenticationControllerTest {
         user.setEmail("hkarabas@gmail.com");
         user.setPassword("qweqeqweqwewqas45345345345");
         user.setFullName("hasan karabaş");
+        user.setUserType("CUSTOMER");
+        user.setDefaultCurrency("TRY");
+        user.setIban("trreetetertettrtertert");
 
         loginUserDto = new UserDto();
         loginUserDto.setEmail("hkarabas@gmail.com");
