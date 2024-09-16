@@ -29,16 +29,16 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-              http.csrf(csrf -> csrf.disable())
-                    .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/auth/**")
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated())
-                    .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                    .authenticationProvider(authenticationProvider)
-                    .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
+              http.csrf(csrf -> csrf.disable()).headers(httpSecurityHeadersConfigurer ->
+                         httpSecurityHeadersConfigurer.frameOptions(frameOptionsConfig ->frameOptionsConfig.disable()))
+                        .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/**","/h2-console/**")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
+                        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        .authenticationProvider(authenticationProvider)
+                        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
             return http.build();
     }
 
@@ -52,6 +52,5 @@ public class SecurityConfiguration {
         source.registerCorsConfiguration("/**",configuration);
         return  source;
     }
-
 
 }

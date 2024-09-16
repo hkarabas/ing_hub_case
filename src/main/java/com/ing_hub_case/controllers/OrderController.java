@@ -4,6 +4,7 @@ package com.ing_hub_case.controllers;
 import com.ing_hub_case.models.AssetDto;
 import com.ing_hub_case.models.OrderDto;
 import com.ing_hub_case.services.OrderService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +38,9 @@ public class OrderController {
     }
 
     @GetMapping("/orderList")
-    public ResponseEntity<List<OrderDto>> getOrderList(@RequestParam Integer customerId, @RequestParam Date beginDate
-            ,@RequestParam Date endDate) {
+    public ResponseEntity<List<OrderDto>> getOrderList(@RequestParam Integer customerId,
+                                                       @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd")  Date  beginDate,
+                                                       @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd")  Date  endDate) {
         return ResponseEntity.ok(orderService.getOrderListByCustomerAndDateRange(customerId, beginDate,endDate));
     }
 

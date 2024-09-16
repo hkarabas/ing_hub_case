@@ -23,13 +23,16 @@ public class UserDto {
     @NotNull(message = "Email is Can not be null")
     private String email;
 
+    @NotNull(message = "Iban is Can not be null\"")
     private String iban;
+
 
     @EnumNamePattern(regexp = "ADMIN|BROKER|CUSTOMER")
     private UserType userType;
 
+    @NotNull(message = "Currency is Can not be null")
     @EnumNamePattern(regexp = "TRY|USD|EU")
-    private Currency default_currency;
+    private Currency defaultCurrency;
 
     private List<OrderDto> orderDtoList;
 
@@ -85,12 +88,12 @@ public class UserDto {
         this.userType = userType;
     }
 
-    public @EnumNamePattern(regexp = "TRY|USD|EU") Currency getDefault_currency() {
-        return default_currency;
+    public @EnumNamePattern(regexp = "TRY|USD|EU") Currency getDefaultCurrency() {
+        return defaultCurrency;
     }
 
-    public void setDefault_currency(@EnumNamePattern(regexp = "TRY|USD|EU") Currency default_currency) {
-        this.default_currency = default_currency;
+    public void setDefaultCurrency(@EnumNamePattern(regexp = "TRY|USD|EU") Currency defaultCurrency) {
+        this.defaultCurrency = defaultCurrency;
     }
 
     public List<OrderDto> getOrderDtoList() {
@@ -108,6 +111,14 @@ public class UserDto {
     public void setCustomerAmountDtos(List<CustomerAmountDto> customerAmountDtos) {
         this.customerAmountDtos = customerAmountDtos;
     }
+    public @NotNull(message = "Iban is Can not be null\"") String getIban() {
+        return iban;
+    }
+
+    public void setIban(@NotNull(message = "Iban is Can not be null\"") String iban) {
+        this.iban = iban;
+    }
+
 
 
 }

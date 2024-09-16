@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 
-@Table(name = "user_table")
+@Table(name = "USER_TABLE")
 @Entity
 public class User implements UserDetails {
 
@@ -59,7 +59,7 @@ public class User implements UserDetails {
         userDto.setUserType(UserType.valueOf(this.userType));
         userDto.setName(this.fullName);
         userDto.setEmail(this.email);
-        userDto.setDefault_currency(Currency.valueOf(this.defaultCurrency));
+        userDto.setDefaultCurrency(Currency.valueOf(this.defaultCurrency));
         userDto.setPassword(this.password);
         return  userDto;
     }

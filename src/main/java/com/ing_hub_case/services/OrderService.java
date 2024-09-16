@@ -81,7 +81,7 @@ public class OrderService {
         order.setCurrency(orderDto.getCurrency());
         order.setPrice(orderDto.getPrice());
         order.setCustomerId(orderDto.getCustomerId());
-        order.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
+        order.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
         order.setStatus(OrderStatus.PENDING.toString());
         order.setSize(orderDto.getSize());
 
@@ -114,7 +114,7 @@ public class OrderService {
         order.setCurrency(orderDto.getCurrency());
         order.setPrice(orderDto.getPrice());
         order.setCustomerId(orderDto.getCustomerId());
-        order.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
+        order.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
         order.setStatus(OrderStatus.PENDING.toString());
         order.setSize(orderDto.getSize());
 
@@ -165,7 +165,7 @@ public class OrderService {
 
         Optional<Order> orderOptional = orderRepository.findById(orderId);
         Order order = orderOptional.orElseThrow(()->new NoSuchOrderExistsException("Order there is not found"));
-        if (order.getStatus().equals(OrderStatus.PENDING.toString())) {
+        if (!order.getStatus().equals(OrderStatus.PENDING.toString())) {
             throw new IllegalArgumentException(String.format("Canceled Order is should be status PENDING status {0}",order.getStatus()));
         }
         order.setStatus(OrderStatus.CANCELED.toString());
@@ -190,7 +190,7 @@ public class OrderService {
     public List<OrderDto> getOrderListByCustomerAndDateRange(Integer customerId, java.util.Date  beginDate,java.util.Date endDate) {
        Date beginDate_L = new Date(beginDate.getTime());
        Date endDate_L = new Date(endDate.getTime());
-      return orderRepository.findAllByCustomerIdAndCreateDateBetween(customerId,beginDate_L,endDate_L).stream().map(Order::convertDto).collect(Collectors.toList());
+      return orderRepository.findAllByCustomerIdAndCreatedDateBetween(customerId,beginDate_L,endDate_L).stream().map(Order::convertDto).collect(Collectors.toList());
     }
 
     private boolean withDrawMoney(String iban,Double price) {

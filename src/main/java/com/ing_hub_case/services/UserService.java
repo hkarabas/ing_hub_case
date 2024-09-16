@@ -48,11 +48,10 @@ public class UserService {
         user.setFullName(userDto.getName()+" "+userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setUserType(userDto.getUserType().toString());
-        user.setDefaultCurrency(userDto.getDefault_currency().toString());
+        user.setDefaultCurrency(userDto.getDefaultCurrency().toString());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setIban(userDto.getIban());
         return   userRepository.save(user).convertToDto();
-
-
     }
 
     public User login(UserDto userDto) {

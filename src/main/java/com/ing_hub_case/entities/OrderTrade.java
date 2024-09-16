@@ -29,6 +29,7 @@ public class OrderTrade {
 
     private Double price;
 
+    @Column(name = "trade_time")
     private Timestamp tradeTime;
 
     @OneToOne
@@ -40,7 +41,7 @@ public class OrderTrade {
     private Asset asset;
 
     @OneToOne
-    @JoinColumn(name = "admin_id", referencedColumnName = "id",insertable = false,updatable = false)
+    @JoinColumn(name = "matched_admin_id", referencedColumnName = "id",insertable = false,updatable = false)
     private User matchedAdmin;
 
     @OneToOne

@@ -10,5 +10,5 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order,Integer> {
-   List<Order> findAllByCustomerIdAndCreateDateBetween(Integer customerId, Date beginDate,Date endDate);
+   List<Order> findAllByCustomerIdAndCreatedDateBetween(Integer customerId, Date beginDate,Date endDate);
 }

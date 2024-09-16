@@ -3,6 +3,7 @@ package com.ing_hub_case.controllers;
 
 
 import com.ing_hub_case.entities.User;
+import com.ing_hub_case.models.UserDto;
 import com.ing_hub_case.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -23,10 +24,10 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<User> getCurrentUser() {
+    public ResponseEntity<UserDto> getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user =(User)authentication.getPrincipal();
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(user.convertToDto());
     }
 
 }

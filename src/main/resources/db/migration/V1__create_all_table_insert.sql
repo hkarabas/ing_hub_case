@@ -5,6 +5,8 @@ CREATE TABLE user_table (
   full_name varchar(255) NOT NULL,
   password varchar(255) NOT NULL,
   user_type varchar(20) NOT NULL,
+  default_currency varchar(10) NOT NULL,
+  iban varchar(50) not null,
   created_at TIMESTAMP,
   updated_at TIMESTAMP
 );
@@ -23,7 +25,7 @@ CREATE TABLE order_trade (
     quantity INTEGER,
     matched_admin_id INTEGER,
     price DOUBLE,
-    tradeTime TIMESTAMP
+    trade_time TIMESTAMP
 );
 CREATE TABLE order_table (
     id IDENTITY NOT NULL PRIMARY KEY,
@@ -73,12 +75,9 @@ VALUES(1,'TRY3213234324355667',1000000);
 INSERT INTO customer_amount(customer_id,iban,amount)
 VALUES(2,'TRY445445445444667',1000000);
 
-INSERT INTO user_table (email,full_name,user_type,password,created_at)
-VALUES('hkarabas@gmail.com','hasan karabaş','CUSTOMER','12345',CURRENT_TIMESTAMP);
+INSERT INTO user_table (email,full_name,user_type,password,default_currency,iban,created_at)
+VALUES('hkarabas@gmail.com','hasan karabaş','CUSTOMER','12345','TRY','TRY445445445444667',CURRENT_TIMESTAMP);
 
-INSERT INTO user_table (email,full_name,user_type,password,created_at)
-VALUES('admin@gmail.com','admin','ADMIN','12345',CURRENT_TIMESTAMP);
-
-
-
+INSERT INTO user_table (email,full_name,user_type,password,default_currency,iban,created_at)
+VALUES('admin@gmail.com','admin','ADMIN','12345','TRY','TRY3213234324355667',CURRENT_TIMESTAMP);
 

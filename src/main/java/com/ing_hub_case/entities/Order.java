@@ -54,8 +54,8 @@ public class Order {
 
     private String status;
 
-    @Column(name = "create_date")
-    private Timestamp createDate;
+    @Column(name = "created_date")
+    private Timestamp createdDate;
 
 
     public OrderDto convertDto() {
@@ -63,7 +63,7 @@ public class Order {
         orderDto.setId(this.id);
         orderDto.setAssetId(this.assetId);
         orderDto.setCustomerId(this.customerId);
-        orderDto.setCreateDate(this.createDate);
+        orderDto.setCreateDate(this.createdDate);
         orderDto.setCurrency(this.currency);
         orderDto.setPrice(this.price);
         orderDto.setSize(this.size);
@@ -129,12 +129,12 @@ public class Order {
         this.status = status;
     }
 
-    public Timestamp getCreateDate() {
-        return createDate;
+    public Timestamp getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreateDate(Timestamp createDate) {
-        this.createDate = createDate;
+    public void setCreatedDate(Timestamp createdDate) {
+        this.createdDate = createdDate;
     }
 
     public User getCustomer() {
