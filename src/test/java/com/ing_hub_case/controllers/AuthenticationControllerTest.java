@@ -55,8 +55,8 @@ class AuthenticationControllerTest {
 
     @BeforeEach
     void Init() {
-        registerUserDto = new RegisterUserDto();
-        registerUserDto.setFullName("hasan karabaş");
+        registerUserDto = new UserDto();
+        registerUserDto.setName("hasan karabaş");
         registerUserDto.setEmail("hkarabas@gmail.com");
         registerUserDto.setPassword("qweqeqweqwewqas45345345345");
 
@@ -65,7 +65,7 @@ class AuthenticationControllerTest {
         user.setPassword("qweqeqweqwewqas45345345345");
         user.setFullName("hasan karabaş");
 
-        loginUserDto = new LoginUserDto();
+        loginUserDto = new UserDto();
         loginUserDto.setEmail("hkarabas@gmail.com");
         loginUserDto.setPassword("qweqeqweqwewqas45345345345");
 
