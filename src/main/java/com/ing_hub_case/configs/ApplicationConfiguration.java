@@ -25,18 +25,18 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    UserDetailsService userDetailsService() {
+   public  UserDetailsService userDetailsService() {
         return email -> userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     @Bean
-    BCryptPasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return  new BCryptPasswordEncoder();
     }
 
     @Bean
-    AuthenticationManager getAuthenticationManager(AuthenticationConfiguration configuration) {
+   public AuthenticationManager getAuthenticationManager(AuthenticationConfiguration configuration) {
         try {
             return  configuration.getAuthenticationManager();
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    AuthenticationProvider getAuthenticationProvider() {
+    public AuthenticationProvider getAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userDetailsService());

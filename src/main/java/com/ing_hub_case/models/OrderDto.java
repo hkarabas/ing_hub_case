@@ -24,7 +24,7 @@ public class OrderDto {
     private AssetDto asset;
 
     @NotNull(message = "Order Side Cannot be null")
-    @EnumNamePattern(regexp = "BUY|SELL")
+    @EnumNamePattern(regexp = "BUY|SELL|CANCEL|MATCH")
     private OrderSide orderSide;
 
     private Integer size;
@@ -78,11 +78,11 @@ public class OrderDto {
         this.asset = asset;
     }
 
-    public @EnumNamePattern(regexp = "BUY|SELL") OrderSide getOrderSide() {
+    public @EnumNamePattern(regexp = "BUY|SELL|CANCEL|MATCH") OrderSide getOrderSide() {
         return orderSide;
     }
 
-    public void setOrderSide(@EnumNamePattern(regexp = "BUY|SELL") OrderSide orderSide) {
+    public void setOrderSide(@EnumNamePattern(regexp = "BUY|SELL|CANCEL|MATCH") OrderSide orderSide) {
         this.orderSide = orderSide;
     }
 
