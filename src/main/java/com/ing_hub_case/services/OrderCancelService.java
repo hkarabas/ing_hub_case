@@ -11,12 +11,13 @@ import com.ing_hub_case.repositories.OrderRepository;
 import com.ing_hub_case.repositories.OrderTradeRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 import java.util.Optional;
 
-@Service
+@Component
 public class OrderCancelService extends AbstractOrder implements IOrder<OrderDto> {
 
 

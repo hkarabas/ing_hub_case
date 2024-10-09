@@ -16,13 +16,14 @@ import com.ing_hub_case.repositories.OrderTradeRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Service
+@Component
 public class BuyOrderService extends AbstractOrder implements IOrder<OrderDto> {
 
 

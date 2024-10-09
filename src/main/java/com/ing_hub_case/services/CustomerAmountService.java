@@ -3,6 +3,7 @@ package com.ing_hub_case.services;
 import com.ing_hub_case.entities.CustomerAmount;
 import com.ing_hub_case.exception.NoSuchCustomerExistsException;
 import com.ing_hub_case.repositories.CustomerAmountRepository;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 

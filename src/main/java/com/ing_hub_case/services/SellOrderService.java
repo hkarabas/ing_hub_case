@@ -28,7 +28,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service
+@Component
 public class SellOrderService extends AbstractOrder implements IOrder<OrderDto> {
 
 
@@ -41,10 +41,10 @@ public class SellOrderService extends AbstractOrder implements IOrder<OrderDto> 
     @Override
     public ResponseEntity<OrderDto> doAction(OrderDto orderDto) {
         if (!Objects.isNull(orderDto.getId())) {
-            throw new IllegalArgumentException("Order is should be new a request!! ");
+            throw new IllegalArgumentException("Order is should be new a request!!");
         }
         if (!getUser().getUserType().equals(UserType.CUSTOMER.toString())) {
-            throw new UserUnAuthorizedException(String.format("Sell for (CUSTOMER) UnAuthorized user type {0}",getUser().getUserType()));
+            throw new UserUnAuthorizedException(String.format("Sell for (CUSTOMER) UnAuthorized user type %s",getUser().getUserType()));
         }
         if (!getUser().getDefaultCurrency().equals(orderDto.getCurrency())) {
             throw  new IllegalArgumentException("Order Currency can not match Customer Default Currency");
@@ -70,7 +70,7 @@ public class SellOrderService extends AbstractOrder implements IOrder<OrderDto> 
 
         asset.setUsableSize(asset.getUsableSize()+orderDto.getSize());
         if (!depositMoney(getUser().getIban(), orderDto.getPrice()))
-            throw  new CustomerBalanceException(String.format(" Customer can not deposit iban {0} ",getUser().getIban()));
+            throw  new CustomerBalanceException(String.format("Customer can not deposit iban %s",getUser().getIban()));
         assetRepository.save(asset);
         return  new ResponseEntity<>(orderDto, HttpStatus.CREATED);
     }
