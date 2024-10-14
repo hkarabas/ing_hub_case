@@ -33,7 +33,7 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    private boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
@@ -85,10 +85,11 @@ public class JwtService {
 
     }
 
-    private Key getSecretKey() {
+    public Key getSecretKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
 
 
 }

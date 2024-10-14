@@ -76,5 +76,8 @@ public class SellOrderService extends AbstractOrder implements IOrder<OrderDto> 
     }
 
 
-
+    @Override
+    protected Optional<Asset> assetControl(Integer assetId) {
+        return super.assetControl(assetId);
+    }
 }

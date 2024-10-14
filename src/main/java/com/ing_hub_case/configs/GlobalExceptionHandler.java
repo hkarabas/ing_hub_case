@@ -23,9 +23,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public @ResponseBody ErrorResponse handleException(IllegalArgumentException ex) {
-        return new ErrorResponse(HttpStatus.FORBIDDEN.value(), ex.getMessage());
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
     }
 
 
