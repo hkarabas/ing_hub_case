@@ -31,6 +31,12 @@ import java.util.stream.Collectors;
 @Component
 public class SellOrderService extends AbstractOrder implements IOrder<OrderDto> {
 
+    private static final String ORDER_SHOULD_BE_NEW = "Order should be a new request!!";
+    private static final String UNAUTHORIZED_USER_TYPE = "Sell for (CUSTOMER) UnAuthorized user type %s";
+    private static final String CURRENCY_MISMATCH = "Order Currency does not match Customer Default Currency";
+    private static final String ASSET_NOT_FOUND = "Asset not found";
+    private static final String DEPOSIT_FAILED = "Customer can not deposit iban %s";
+
 
     protected SellOrderService(OrderRepository orderRepository, AssetRepository assetRepository,
                                CustomerBalanceClient customerBalanceClient,
@@ -40,16 +46,16 @@ public class SellOrderService extends AbstractOrder implements IOrder<OrderDto> 
 
     @Override
     public ResponseEntity<OrderDto> doAction(OrderDto orderDto) {
-        if (!Objects.isNull(orderDto.getId())) {
-            throw new IllegalArgumentException("Order is should be new a request!!");
+        if (orderDto.getId() != null) {
+            throw new IllegalArgumentException(ORDER_SHOULD_BE_NEW);
         }
         if (!getUser().getUserType().equals(UserType.CUSTOMER.toString())) {
-            throw new UserUnAuthorizedException(String.format("Sell for (CUSTOMER) UnAuthorized user type %s",getUser().getUserType()));
+            throw new UserUnAuthorizedException(String.format(UNAUTHORIZED_USER_TYPE, getUser().getUserType()));
         }
         if (!getUser().getDefaultCurrency().equals(orderDto.getCurrency())) {
-            throw  new IllegalArgumentException("Order Currency can not match Customer Default Currency");
+            throw new IllegalArgumentException(CURRENCY_MISMATCH);
         }
-        Asset asset = assetControl(orderDto.getAssetId()).orElseThrow(()->new IllegalArgumentException("Asset there is not found"));
+        Asset asset = assetControl(orderDto.getAssetId()).orElseThrow(() -> new IllegalArgumentException(ASSET_NOT_FOUND));
 
         Order order = new Order();
         order.setAssetId(orderDto.getAssetId());
@@ -67,12 +73,12 @@ public class SellOrderService extends AbstractOrder implements IOrder<OrderDto> 
         orderDto.setAsset(orderDto.getAsset());
         orderDto.setCustomer(order.getCustomer());
 
-
-        asset.setUsableSize(asset.getUsableSize()+orderDto.getSize());
-        if (!depositMoney(getUser().getIban(), orderDto.getPrice()))
-            throw  new CustomerBalanceException(String.format("Customer can not deposit iban %s",getUser().getIban()));
+        asset.setUsableSize(asset.getUsableSize() + orderDto.getSize());
+        if (!depositMoney(getUser().getIban(), orderDto.getPrice())) {
+            throw new CustomerBalanceException(String.format(DEPOSIT_FAILED, getUser().getIban()));
+        }
         assetRepository.save(asset);
-        return  new ResponseEntity<>(orderDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(orderDto, HttpStatus.CREATED);
     }
 
 

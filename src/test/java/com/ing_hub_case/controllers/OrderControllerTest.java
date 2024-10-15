@@ -2,6 +2,7 @@ package com.ing_hub_case.controllers;
 
 import com.ing_hub_case.entities.Asset;
 import com.ing_hub_case.entities.Order;
+import com.ing_hub_case.entities.OrderTrade;
 import com.ing_hub_case.entities.User;
 import com.ing_hub_case.enums.Currency;
 import com.ing_hub_case.enums.OrderSide;
@@ -40,7 +41,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -60,11 +61,12 @@ class OrderControllerTest {
     OrderRepository orderRepository;
 
     @MockBean
-    AssetRepository assetRepository;
-    @MockBean
-    private CustomerBalanceClient customerBalanceClient;
+    CustomerBalanceClient customerBalanceClient;
 
     @MockBean
+    AssetRepository assetRepository;
+
+    @Autowired
     private BuyOrderService buyOrderService;
 
     @Autowired
@@ -97,7 +99,6 @@ class OrderControllerTest {
         orderDto.setPrice(100.0);
         orderDto.setSize(10);
         orderDto.setCurrency(Currency.TRY.toString());
-        orderDto.setOrderSide(OrderSide.SELL);
 
         order = new Order();
         order.setId(1);
@@ -120,7 +121,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void doAction_withValidOrder_returnsCreatedResponse() throws Exception {
+    void doAction_withValidSellOrder_returnsCreatedResponse() throws Exception {
 
         orderDto.setOrderSide(OrderSide.SELL);
         orderDto.setStatus(OrderStatus.PENDING);
@@ -153,6 +154,45 @@ class OrderControllerTest {
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.orderSide").value("SELL"))
                 .andExpect(jsonPath("$.status").value("PENDING"));
+    }
+
+    @Test
+    void doAction_withValidBuyOrder_returnsCreatedResponse() throws Exception {
+
+        orderDto.setOrderSide(OrderSide.BUY);
+        orderDto.setStatus(OrderStatus.PENDING);
+
+        OrderDto orderDtoRet = new OrderDto();
+        orderDtoRet.setId(1);
+        orderDtoRet.setOrderSide(OrderSide.BUY);
+        orderDtoRet.setStatus(OrderStatus.PENDING);
+
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        when(authentication.getPrincipal()).thenReturn(user);
+        SecurityContextHolder.setContext(securityContext);
+        when(assetRepository.findById(1)).thenReturn(Optional.of(asset));
+        Order saveOrder = new  Order();
+        saveOrder.setId(1);
+        saveOrder.setStatus(OrderStatus.PENDING.toString());
+        saveOrder.setAssetId(1);
+        asset.setUsableSize(asset.getUsableSize()-orderDto.getSize());
+        when(orderRepository.save(any())).thenReturn(saveOrder);
+        when(customerBalanceClient.postWithDraw(anyString(), anyDouble(),anyString())).thenReturn(true);
+        when(assetRepository.save(any())).thenReturn(asset);
+
+
+        mockMvc.perform(post("/order/doAction")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"orderSide\":\"BUY\",\"currency\":\"TRY\",\"price\":100.0,\"size\":10,\"assetId\":1,\"customerId\":1}"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.orderSide").value("BUY"))
+                .andExpect(jsonPath("$.status").value("PENDING"));
+        verify(orderRepository, times(1)).save(any(Order.class));
+        verify(assetRepository, times(1)).save(any(Asset.class));
+        verify(customerBalanceClient, times(1)).postWithDraw(anyString(), anyDouble(),anyString());
+
+
     }
 
     @Test
