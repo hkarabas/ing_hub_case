@@ -7,6 +7,7 @@ import com.ing_hub_case.models.LoginResponse;
 import com.ing_hub_case.models.UserDto;
 import com.ing_hub_case.services.JwtService;
 import com.ing_hub_case.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/signup")
-    public ResponseEntity<UserDto>  signupUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto>  signupUser(@Valid @RequestBody UserDto userDto) {
       var signUser =  userService.signUp(userDto);
       userService.saveUserLogs(signUser);
       return new ResponseEntity<UserDto>(signUser,HttpStatus.CREATED);

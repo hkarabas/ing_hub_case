@@ -26,7 +26,7 @@ public class UserDto {
     @NotNull(message = "Iban is Can not be null\"")
     private String iban;
 
-
+    @NotNull(message = "User Type is Can not be null")
     @EnumNamePattern(regexp = "ADMIN|BROKER|CUSTOMER")
     private UserType userType;
 

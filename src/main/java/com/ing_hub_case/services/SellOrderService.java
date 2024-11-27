@@ -31,10 +31,10 @@ import java.util.stream.Collectors;
 @Component
 public class SellOrderService extends AbstractOrder implements IOrder<OrderDto> {
 
-    private static final String ORDER_SHOULD_BE_NEW = "Order should be a new request!!";
+    private static final String ORDER_SHOULD_BE_NEW = "Order is should be new a request!!";
     private static final String UNAUTHORIZED_USER_TYPE = "Sell for (CUSTOMER) UnAuthorized user type %s";
     private static final String CURRENCY_MISMATCH = "Order Currency does not match Customer Default Currency";
-    private static final String ASSET_NOT_FOUND = "Asset not found";
+    private static final String ASSET_NOT_FOUND = "Asset there is not found";
     private static final String DEPOSIT_FAILED = "Customer can not deposit iban %s";
 
 
